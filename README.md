@@ -213,15 +213,6 @@ Hal ini Variabel similarity_scores seharusnya bertipe pandas.Series agar sort_va
  <p align="justify">
 Meski judul yang mengandung "Shingeki no Kyojin" ada di dataset, fungsi belum berhasil melakukan pencocokan judul secara parsial dengan baik. Jadi, input judul yang tidak tepat menyebabkan pencarian similarity gagal, tipe data yang dihasilkan tidak sesuai, dan memicu error tersebut.
 
-#### 5. Evaluasi dengan Precision@k
- <p align="justify">
-Precision@k merupakan metrik evaluasi yang mengukur proporsi rekomendasi teratas sebanyak k yang relevan dengan preferensi pengguna. Dalam konteks proyek ini, relevansi diukur berdasarkan kesamaan genre antara anime target dan anime yang direkomendasikan.
-
-![image](https://github.com/user-attachments/assets/ae1d424f-5d6c-4442-aae3-ec72418744a2)
-
-<p align="justify">
-Sebagai contoh, nilai Precision@5 untuk anime "Naruto" adalah 0.20. Artinya, dari 5 rekomendasi teratas yang diberikan, hanya sekitar 20% (1 dari 5) yang memiliki genre yang sama dengan "Naruto". Hasil ini menunjukkan bahwa akurasi rekomendasi berdasarkan genre masih dapat ditingkatkan agar lebih relevan dengan preferensi pengguna.
-
 ### b. Menggunakan Content Based Filtering (CBF)
 
 #### a. Data preparation untuk CF
@@ -240,18 +231,7 @@ Model RecommenderNet menggunakan embedding untuk mengubah ID pengguna dan anime 
 <p align="justify">
 Model RecommenderNet diinisialisasi dengan ukuran embedding sebesar 50, yang menentukan dimensi vektor representasi pengguna dan anime. Model kemudian dikompilasi menggunakan fungsi loss Mean Absolute Error (MAE) dan optimizer Adam dengan learning rate 0.001, serta metrik evaluasi Root Mean Squared Error (RMSE) untuk mengukur performa prediksi. Proses pelatihan dilakukan selama 50 epoch dengan batch size 64, menggunakan data training dan validasi yang telah dipersiapkan sebelumnya. Langkah ini bertujuan untuk mengoptimalkan bobot embedding dan parameter model agar mampu memprediksi rating anime dengan akurat.
 
-#### c. Evaluasi
-Evaluasi pada model CF dengan Loss Curve. Loss Curve adalah sebuah grafik yang menunjukan perubahan loss atau kesalahan prediksi dalam training model setiap epoch.
-
-![image](https://github.com/user-attachments/assets/92632d70-e064-4624-b4ab-b32a1d13c66d)
-
-Berdasarkan Kurva Loss:
-* Train Loss menurun dan stabil di angka rendah seiring bertambahnya epoch.
-* Val Loss Setelah beberapa epoch awal, tidak menurun, justru tetap tinggi dan cenderung stagnan bahkan sedikit naik dengan fluktuasi.
-* Gap besar antara train loss dan val loss dan Val loss tidak membaik
-* Maka, Model mengalami Overfitting
-
-#### d. Membuat Sistem Rekomendasi 
+#### c. Membuat Sistem Rekomendasi 
 Dalam memberikan rekomendasi anime menggunakan CF, perlu dipersiapkan hal berikut:
 1. Sampel acak untuk memberikan contoh bagaimana sistem merekomendasikan anime kepada user
 2. Identifikasi anime yang sudah ditonton pengguna sebagai dasar preferensi
@@ -273,8 +253,30 @@ Setelah itu, membuat prediksi dengan melakukan:
 
 <p align="justify">
 Untuk user dengan ID 11531, sistem merekomendasikan 10 anime dengan prediksi rating tertinggi yang menunjukkan seberapa besar kemungkinan user menyukai anime tersebut. Setiap rekomendasi dilengkapi dengan rating asli, tingkat popularitas, genre, dan jumlah anggota komunitas, sehingga memberikan gambaran lengkap tentang kualitas dan karakteristik anime yang direkomendasikan.
+  
+## F. Evaluasi
 
-## F. Kesimpulan 
+### a. Evaluasi dengan Precision@k untuk CBF
+ <p align="justify">
+Precision@k merupakan metrik evaluasi yang mengukur proporsi rekomendasi teratas sebanyak k yang relevan dengan preferensi pengguna. Dalam konteks proyek ini, relevansi diukur berdasarkan kesamaan genre antara anime target dan anime yang direkomendasikan.
+
+![image](https://github.com/user-attachments/assets/ae1d424f-5d6c-4442-aae3-ec72418744a2)
+
+<p align="justify">
+Sebagai contoh, nilai Precision@5 untuk anime "Naruto" adalah 0.20. Artinya, dari 5 rekomendasi teratas yang diberikan, hanya sekitar 20% (1 dari 5) yang memiliki genre yang sama dengan "Naruto". Hasil ini menunjukkan bahwa akurasi rekomendasi berdasarkan genre masih dapat ditingkatkan agar lebih relevan dengan preferensi pengguna.
+
+### b. Evaluasi dengan Loss Curve untuk CF
+Evaluasi pada model CF dengan Loss Curve. Loss Curve adalah sebuah grafik yang menunjukan perubahan loss atau kesalahan prediksi dalam training model setiap epoch.
+
+![image](https://github.com/user-attachments/assets/92632d70-e064-4624-b4ab-b32a1d13c66d)
+
+Berdasarkan Kurva Loss:
+* Train Loss menurun dan stabil di angka rendah seiring bertambahnya epoch.
+* Val Loss Setelah beberapa epoch awal, tidak menurun, justru tetap tinggi dan cenderung stagnan bahkan sedikit naik dengan fluktuasi.
+* Gap besar antara train loss dan val loss dan Val loss tidak membaik
+* Maka, Model mengalami Overfitting
+
+## G. Kesimpulan 
 <p align="justify">
 Dalam menjawab permasalahan dan mencapai tujuan, perlu dilakukan tahapan seperti mengumpulkan data yang mendukung, membersihkan data, transformasi, pemodelan, bahkan evaluasi. Sistem rekomendasi mengembangkan dua pendekatan utama:
 
